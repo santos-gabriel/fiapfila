@@ -22,32 +22,39 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/tech-challenge")
+@RequestMapping("/fila")
 @RequiredArgsConstructor
 public class FilaController {
 
     @Autowired
     private IFilaUseCasePort filaUseCasePort;
 
-    @PostMapping("/fila")
-    public ResponseEntity<FilaDTO> inserirPedidoNaFila(@RequestBody @NotNull FilaRequest filaRequest) {
-        var filaDTO = new FilaDTO().from(filaUseCasePort.inserirPedidoNaFila(filaRequest.toItemFila()));
+    @PostMapping("/clientes/{idCliente}/pedidos/{idPedido}")
+    public ResponseEntity<FilaDTO> inserirPedidoNaFila(
+            @PathVariable(name = "idPedido") UUID idPedido,
+            @PathVariable(name = "idCliente") UUID idCliente) {
+
+        var itemFila = ItemFila.builder()
+                .idPedido(idPedido)
+                .idCliente(idCliente)
+                .build();
+        var filaDTO = new FilaDTO().from(filaUseCasePort.inserirPedidoNaFila(itemFila));
         return ResponseEntity.ok().body(filaDTO);
     }
 
-    @PutMapping("/fila/{id}")
-    public ResponseEntity<FilaDTO> concluirPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
-        var filaDTO = new FilaDTO().from(filaUseCasePort.concluirPedidoNaFila(idPedido));
-        return ResponseEntity.ok().body(filaDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> concluirPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
+        filaUseCasePort.concluirPedidoNaFila(idPedido);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/fila/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removerPedidoDaFila(@PathVariable(name = "id") UUID idPedido) {
         filaUseCasePort.removerPedidoDaFila(idPedido);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/fila/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<FilaDTO> obterPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
         var iTemFila = filaUseCasePort.obterPedidoNaFila(idPedido);
 
@@ -59,7 +66,7 @@ public class FilaController {
         }
     }
 
-    @GetMapping("/fila/pedidos")
+    @GetMapping("/pedidos")
     public Page<FilaDTO> buscarPedidosNaFila(
             @PageableDefault(size = 10, page = 0)
             @SortDefault(sort = "numeroNaFila", direction = Sort.Direction.ASC)

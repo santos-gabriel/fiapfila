@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.UUID;
 
-@FeignClient(name = "consulta-pagamento", url = "http://localhost:4000")
+@FeignClient(name = "atualiza-pedido", url = "${pedido.service.url}")
 public interface PedidoRepository {
+
     @PutMapping(value = "/pedido/{idPedido}/status/{status}", headers = {"Content-Type: application/json"})
 //    @Headers("Content-Type: application/json")
     void atualizarPedido(@PathVariable("idPedido") UUID idPedido, @PathVariable("status")StatusPedido statusPedido);
