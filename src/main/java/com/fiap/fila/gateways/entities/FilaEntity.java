@@ -29,11 +29,6 @@ public class FilaEntity {
     @NotNull
     private UUID idCliente;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "id_status")
-    @NotNull
-    private StatusPedido statusPedido;
-
     public FilaEntity(ItemFila pedidoFila) {
         this.idPedido = pedidoFila.getIdPedido();
         this.numeroNaFila = pedidoFila.getNumeroNaFila();
