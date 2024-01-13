@@ -12,9 +12,9 @@ public interface IFilaUseCasePort {
 
     public ItemFila inserirPedidoNaFila(ItemFila fila) throws PedidoJaNaFilaException;
 
-    public Optional<ItemFila> obterPedidoNaFilaPorIdPedido(UUID id);
+    public Optional<ItemFila> obterPedidoNaFila(UUID id);
 
-    public ItemFila atualizarPedidoNaFilaPorIdPedido(UUID id);
+    public void concluirPedidoNaFila(UUID id);
 
     public List<ItemFila> obterPedidosNaFila(int page, int size);
 

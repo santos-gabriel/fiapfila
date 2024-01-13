@@ -2,7 +2,9 @@ package com.fiap.fila.controllers;
 
 import com.fiap.fila.adapters.FilaDTO;
 import com.fiap.fila.controllers.requestValidations.FilaRequest;
+import com.fiap.fila.entities.ItemFila;
 import com.fiap.fila.interfaces.usecases.IFilaUseCasePort;
+import com.fiap.fila.utils.enums.StatusPedido;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +36,20 @@ public class FilaController {
     }
 
     @PutMapping("/fila/{id}")
-    public ResponseEntity<FilaDTO> atualizarPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
-        var filaDTO = new FilaDTO().from(filaUseCasePort.atualizarPedidoNaFilaPorIdPedido(idPedido));
+    public ResponseEntity<FilaDTO> concluirPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
+        var filaDTO = new FilaDTO().from(filaUseCasePort.concluirPedidoNaFila(idPedido));
         return ResponseEntity.ok().body(filaDTO);
     }
 
+    @DeleteMapping("/fila/{id}")
+    public ResponseEntity<?> removerPedidoDaFila(@PathVariable(name = "id") UUID idPedido) {
+        filaUseCasePort.removerPedidoDaFila(idPedido);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/fila/{id}")
-    public ResponseEntity<FilaDTO> buscarPedidoNaFilaPorID(@PathVariable(name = "id") UUID idPedido) {
-        var iTemFila = filaUseCasePort.obterPedidoNaFilaPorIdPedido(idPedido);
+    public ResponseEntity<FilaDTO> obterPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
+        var iTemFila = filaUseCasePort.obterPedidoNaFila(idPedido);
 
         if (iTemFila.isPresent()) {
             var filaDTO = new FilaDTO().from(iTemFila.get());
@@ -62,12 +70,6 @@ public class FilaController {
                 .map(item -> new FilaDTO().from(item))
                 .collect(Collectors.toList());
         return new PageImpl<>(itensFilaDTO);
-    }
-
-    @DeleteMapping("/fila/{id}")
-    public ResponseEntity<?> removerPedidoDaFila(@PathVariable(name = "id") UUID idPedido) {
-        filaUseCasePort.removerPedidoDaFila(idPedido);
-        return ResponseEntity.ok().build();
     }
 
 }

@@ -16,5 +16,4 @@ public class ItemFila {
     private UUID idCliente;
     private UUID idPedido;
     private Long numeroNaFila;
-    private StatusPedido statusPedido;
 }

@@ -19,13 +19,11 @@ public class FilaRequest {
     @NotNull(message = "id do pedido não pode estar vazio")
     private UUID idPedido;
     private UUID idCliente;
-    private StatusPedido status;
 
     public ItemFila toItemFila() {
         return ItemFila.builder()
                 .idCliente(this.idCliente)
                 .idPedido(this.idPedido)
-                .statusPedido(this.status)
                 .build();
 
     }
