@@ -24,7 +24,7 @@ public class FilaUseCaseImpl implements IFilaUseCasePort {
 
     @Override
     public ItemFila inserirPedidoNaFila(ItemFila fila) throws PedidoJaNaFilaException {
-        if (Objects.nonNull(this.obterPedido(fila.getIdPedido())))
+        if (this.obterPedidoNaFila(fila.getIdPedido()).isPresent())
             throw new PedidoJaNaFilaException(fila.getIdPedido());
 
         var itemFila = filaRepositoryPort.inserir(fila);

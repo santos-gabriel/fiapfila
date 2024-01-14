@@ -3,14 +3,14 @@ version: '3.3'
 services:
   postgres:
     image: postgres
-    container_name: dbfila
+    container_name: db
     env_file: ./.env
     environment:
       - POSTGRES_PASSWORD=$POSTGRES_ROOT_PASSWORD
     ports:
       - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
     networks:
-      - fila_default
+      - fiap_default
 
   app:
     depends_on:
@@ -29,27 +29,31 @@ services:
         "spring.datasource.initialize" : true,
         "spring.datasource.continue-on-error": true,
         "spring.jpa.hibernate.ddl-auto":"update",
-        "server.port" : "$SPRING_LOCAL_PORT"
+        "server.port" : "$SPRING_LOCAL_PORT",
+        "server.servlet.context-path" : "/tech-challenge",
+        "pedido.service.url" : "http://localhost:9091/tech-challenge/pedidos",
+        "feign.client.config.default.connectTimeout" : 14000,
+        "feign.client.config.default.readTimeout" : 14000
       }'
     volumes:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
     networks:
-      - fila_default
+      - fiap_default
 
   phppgadmin:
     image: dpage/pgadmin4
-    container_name: phppgadminfila
+    container_name: phppgadmin
     env_file: ./.env
     environment:
       - PGADMIN_DEFAULT_EMAIL=$PGADMIN_ROOT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD=$PGADMIN_ROOT_PASSWORD
     ports:
-      - "8080:80"
+      - "8082:80"
     networks:
-      - fila_default
+      - fiap_default
 
 networks:
-  fila_default:
+  fiap_default:
     driver: bridge

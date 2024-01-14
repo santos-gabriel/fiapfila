@@ -31,7 +31,7 @@ public class FilaEntity {
 
     public FilaEntity(ItemFila pedidoFila) {
         this.idPedido = pedidoFila.getIdPedido();
-        this.numeroNaFila = pedidoFila.getNumeroNaFila();
+        this.idCliente = pedidoFila.getIdCliente();
     }
 
     public ItemFila toItemFila() {

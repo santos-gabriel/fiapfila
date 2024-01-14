@@ -10,7 +10,7 @@ import java.util.UUID;
 @FeignClient(name = "atualiza-pedido", url = "${pedido.service.url}")
 public interface PedidoRepository {
 
-    @PutMapping(value = "/pedido/{idPedido}/status/{status}", headers = {"Content-Type: application/json"})
+    @PutMapping(value = "/{idPedido}/status/{status}", headers = {"Content-Type: application/json"})
 //    @Headers("Content-Type: application/json")
     void atualizarPedido(@PathVariable("idPedido") UUID idPedido, @PathVariable("status")StatusPedido statusPedido);
 }
