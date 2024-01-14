@@ -11,9 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,12 +46,6 @@ public class FilaController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> removerPedidoDaFila(@PathVariable(name = "id") UUID idPedido) {
-        filaUseCasePort.removerPedidoDaFila(idPedido);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<FilaDTO> obterPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
         var iTemFila = filaUseCasePort.obterPedidoNaFila(idPedido);
@@ -63,7 +59,7 @@ public class FilaController {
     }
 
     @GetMapping("/pedidos")
-    public Page<FilaDTO> buscarPedidosNaFila(
+    public ResponseEntity<List<FilaDTO>> buscarPedidosNaFila(
             @PageableDefault(size = 10, page = 0)
             @SortDefault(sort = "numeroNaFila", direction = Sort.Direction.ASC)
             Pageable paginacao) {
@@ -72,7 +68,7 @@ public class FilaController {
                 .stream()
                 .map(item -> new FilaDTO().from(item))
                 .collect(Collectors.toList());
-        return new PageImpl<>(itensFilaDTO);
+        return new ResponseEntity<>(itensFilaDTO, HttpStatus.OK);
     }
 
 }

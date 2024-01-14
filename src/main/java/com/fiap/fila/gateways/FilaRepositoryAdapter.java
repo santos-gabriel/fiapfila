@@ -44,6 +44,7 @@ public class FilaRepositoryAdapter implements IFilaRepositoryPort {
     }
 
     @Override
+    @Transactional
     public ItemFila atualizarItemNaFila(ItemFila itemFila) {
         return filaRepository
                 .save(new FilaEntity(itemFila))

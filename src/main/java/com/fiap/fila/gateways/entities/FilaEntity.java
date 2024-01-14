@@ -37,6 +37,7 @@ public class FilaEntity {
     public ItemFila toItemFila() {
         var pedidoFila = new ItemFila();
         pedidoFila.setNumeroNaFila(this.numeroNaFila);
+        pedidoFila.setIdCliente(this.idCliente);
         pedidoFila.setIdPedido(this.idPedido);
         return pedidoFila;
     }

@@ -46,13 +46,6 @@ public class FilaUseCaseImpl implements IFilaUseCasePort {
     }
 
     @Override
-    public void removerPedidoDaFila(UUID idPedido) throws
-            PedidoNaoEncontradoNaFilaException,
-            ErroAoAtualizarStatusDoPedidoException {
-        this.finalizarPedidoNaFila(this.obterPedido(idPedido));
-    }
-
-    @Override
     public Optional<ItemFila> obterPedidoNaFila(UUID idPedido) {
         return filaRepositoryPort.obterPorIdPedido(idPedido);
     }
