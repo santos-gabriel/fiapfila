@@ -2,6 +2,7 @@ package com.fiap.fila.utils.enums;
 
 public enum StatusPedido {
     E("Em preparação"),
+    P("Pronto"),
     F("Finalizado");
 
     private final String descricao;

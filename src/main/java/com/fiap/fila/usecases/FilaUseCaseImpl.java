@@ -12,7 +12,6 @@ import com.fiap.fila.utils.enums.StatusPedido;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,7 +41,26 @@ public class FilaUseCaseImpl implements IFilaUseCasePort {
     public void concluirPedidoNaFila(UUID idPedido) throws
             PedidoNaoEncontradoNaFilaException,
             ErroAoAtualizarStatusDoPedidoException {
-        this.finalizarPedidoNaFila(this.obterPedido(idPedido));
+        var itemFila = this.obterPedidoNaFila(idPedido);
+        validarPedido(itemFila);
+
+        try {
+            this.pedidoRepositoryPort.atualizarPedido(itemFila.get().getIdPedido(), StatusPedido.P);
+        } catch (Exception e) {
+            throw new ErroAoAtualizarStatusDoPedidoException(idPedido);
+        }
+    }
+
+    @Override
+    public void removerPedidoNaFila(UUID idPedido) {
+        validarPedido(this.obterPedidoNaFila(idPedido));
+        filaRepositoryPort.removerItemFila(idPedido);
+
+        try {
+            this.pedidoRepositoryPort.atualizarPedido(idPedido, StatusPedido.F);
+        } catch (Exception e) {
+            throw new ErroAoAtualizarStatusDoPedidoException(idPedido);
+        }
     }
 
     @Override
@@ -55,18 +73,7 @@ public class FilaUseCaseImpl implements IFilaUseCasePort {
         return filaRepositoryPort.obterPedidos(page, size);
     }
 
-    private ItemFila obterPedido(UUID idPedido) {
-        var pedidoFilaOptional = this.obterPedidoNaFila(idPedido);
-        if (pedidoFilaOptional.isEmpty()) throw new PedidoNaoEncontradoNaFilaException();
-        return pedidoFilaOptional.get();
-    }
-
-    private void finalizarPedidoNaFila(ItemFila itemFila) {
-        filaRepositoryPort.removerItemFila(itemFila.getIdPedido());
-        try {
-            this.pedidoRepositoryPort.atualizarPedido(itemFila.getIdPedido(), StatusPedido.F);
-        } catch (Exception e) {
-            throw new ErroAoAtualizarStatusDoPedidoException(itemFila.getIdPedido());
-        }
+    private void validarPedido(Optional<ItemFila>  itemFila) {
+        if (itemFila.isEmpty()) throw new PedidoNaoEncontradoNaFilaException();
     }
 }

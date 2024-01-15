@@ -18,4 +18,6 @@ public interface IFilaUseCasePort {
 
     public List<ItemFila> obterPedidosNaFila(int page, int size);
 
+    public void removerPedidoNaFila(UUID idPedido);
+
 }

@@ -46,6 +46,12 @@ public class FilaController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removerPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
+        filaUseCasePort.removerPedidoNaFila(idPedido);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<FilaDTO> obterPedidoNaFila(@PathVariable(name = "id") UUID idPedido) {
         var iTemFila = filaUseCasePort.obterPedidoNaFila(idPedido);
