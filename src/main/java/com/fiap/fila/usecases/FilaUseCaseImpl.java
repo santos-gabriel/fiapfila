@@ -10,6 +10,7 @@ import com.fiap.fila.interfaces.gateways.IPedidoRepositoryPort;
 import com.fiap.fila.interfaces.usecases.IFilaUseCasePort;
 import com.fiap.fila.utils.enums.StatusPedido;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Optional;

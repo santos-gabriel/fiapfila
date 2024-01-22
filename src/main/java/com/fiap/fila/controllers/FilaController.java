@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class FilaController {
 
     @Autowired
-    private IFilaUseCasePort filaUseCasePort;
+    private final IFilaUseCasePort filaUseCasePort;
 
     @PostMapping("/clientes/{idCliente}/pedidos/{idPedido}")
     public ResponseEntity<FilaDTO> inserirPedidoNaFila(
