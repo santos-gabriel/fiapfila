@@ -34,7 +34,6 @@ public class FilaUseCaseImpl implements IFilaUseCasePort {
             return itemFila;
         } catch (Exception e) {
             this.filaRepositoryPort.removerItemFila(fila.getIdPedido());
-            e.printStackTrace();
             throw new PedidoNaoIncluidoNaFilaException(fila.getIdPedido());
         }
     }
