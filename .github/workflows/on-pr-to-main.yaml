@@ -46,7 +46,7 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Executar testes
-        run: mvn spring-boot:run "-Dspring.profiles.active=dev" &
+        run: mvn spring-boot:run "-Dspring-boot.run.profiles=dev" &
 
       - name: Aguardar Inicialização
         run: sleep 30s
