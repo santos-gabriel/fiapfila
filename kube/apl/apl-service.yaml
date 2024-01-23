@@ -2,14 +2,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: apl
+  name: apl-fila
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::813173347981:role/eks-eks-nodes"
 spec:
   selector:
-    app: apl
+    app: apl-fila
   ports:
-    - name: apl
+    - name: apl-fila
       targetPort: 9092
       port: 9092
   type: LoadBalancer
