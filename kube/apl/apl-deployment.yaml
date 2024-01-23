@@ -2,73 +2,73 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apl
+  name: apl-fila
 spec:
   selector:
     matchLabels:
-      app: apl
+      app: apl-fila
   replicas: 1
   template:
     metadata:
 #      annotations:
 #        eks.amazonaws.com/role-arn: arn:aws:iam::231670762225:role/my-app-service-account
       labels:
-        app: apl
+        app: apl-fila
     spec:
       containers:
-        - name: apl
+        - name: apl-fila
           image: dossantosgabriel/fiapfila:v1
           imagePullPolicy: "Always"
           env:
             - name: spring.jpa.properties.hibernate.dialect
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: HIBERNATE_DIALECT
             - name: spring.jpa.hibernate.show-sql
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: HIBERNATE_SHOW_SQL
             - name: spring.datasource.initialization-mode
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: DATASOURCE_INITIALIZATION_MODE
             - name: spring.datasource.initialize
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: DATASOURCE_INITIALIZE
             - name: spring.datasource.continue-on-error
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: DATASOURCE_CONTINUE_ON_ERROR
             - name: spring.jpa.hibernate.ddl-auto
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: HIBERNATE_DDL_AUTO
             - name: pedido.service.url
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: PEDIDO_URL
             - name: spring.datasource.url
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: SPRING_DB_URL
             - name: spring.datasource.username
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: SPRING_DB_USER
             - name: spring.datasource.password
               valueFrom:
                 configMapKeyRef:
-                  name: apl-config
+                  name: apl-fila-config
                   key: SPRING_DB_PASS
             - name: server.port
               value: '9092'
