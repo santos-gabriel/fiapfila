@@ -4,7 +4,7 @@ WORKDIR /root/app
 RUN mvn clean package -DskipTests=true
 
 FROM eclipse-temurin:17-jdk-jammy
-EXPOSE 9090
+EXPOSE 9092
 COPY --from=build /root/app/ /home/app/
 WORKDIR /home/app
 ENTRYPOINT ["java", "-jar", "-Xmx1512m", "./target/fila-1.0.0.jar"]
