@@ -1,0 +1,18 @@
+# Create a configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apl-config
+  labels:
+    app: apl
+data:
+  DATASOURCE_INITIALIZATION_MODE: always
+  DATASOURCE_INITIALIZE: 'true'
+  DATASOURCE_CONTINUE_ON_ERROR: 'true'
+  HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+  HIBERNATE_SHOW_SQL: 'true'
+  HIBERNATE_DDL_AUTO: update
+  PEDIDO_URL: http://localhost:9091/tech-challenge/pedidos
+  SPRING_DB_URL: jdbc:postgresql://fiapdb.ce4tqxmbartv.us-east-1.rds.amazonaws.com:5432/postgres
+  SPRING_DB_USER: postgres
+  SPRING_DB_PASS: db_fiap2023
